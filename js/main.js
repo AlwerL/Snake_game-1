@@ -27,7 +27,6 @@ const drawScore = () => {
   ctx.fillStyle = "Black";
   ctx.font = "20px Comic Sans MS"
   ctx.fillText("Score: " + score, blockSize + 2, blockSize + 2);
-  
 }
 
 const gameOver = () => {
@@ -39,10 +38,14 @@ const gameOver = () => {
   ctx.fillText("Game Over", width / 2, height / 2);
 }
 
+const idInterval = setInterval(() => {
+  ctx.clearRect(0, 0, width, height);
+  drawBorder();
+  drawScore()
+}, 100)
 
 
-
-
+setTimeout(gameOver, 3000)
 
 
 
