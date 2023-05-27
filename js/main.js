@@ -67,15 +67,27 @@ Block.prototype.drawCircle = function(color) {
   circle(centerX, centerY, blockSize / 2, true);
 }
 
-const testBlock = new Block(1,1);
-testBlock.drawSquare("red");
+Block.prototype.equal = function(otherBlock) {
+  return this.col === otherBlock.col && this.row === otherBlock.row;
+};
+
+const Snake = function() {
+
+  this.segments = [
+    new Block(7, 5),
+    new Block(6, 5),
+    new Block(5, 5)
+  ];
+
+  this.direction = "right";
+  this.nextDirection = "right";
+}
 
 
 const idInterval = setInterval(() => {
   ctx.clearRect(0, 0, width, height);
   drawBorder();
   drawScore();
-  circle(50, 50, blockSize / 2, true);
 }, 100)
 
 
