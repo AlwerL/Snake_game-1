@@ -1,0 +1,1 @@
+#To start game -> open index.html#

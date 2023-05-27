@@ -83,6 +83,12 @@ const Snake = function() {
   this.nextDirection = "right";
 }
 
+Snake.prototype.draw = function() {
+  this.segments.forEach(val => {
+    val.drawSquare("blue")
+  })
+};
+
 
 const idInterval = setInterval(() => {
   ctx.clearRect(0, 0, width, height);
