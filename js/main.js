@@ -38,6 +38,16 @@ const gameOver = () => {
   ctx.fillText("Game Over", width / 2, height / 2);
 }
 
+const circle = function(x, y, radius, fillCircle) {
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+  if (fillCircle) {
+    ctx.fill();
+  } else {
+    ctx.stroke();
+  }
+};
+
 const Block = function(col, row) {
   this.col = col;
   this.row = row;
@@ -50,6 +60,13 @@ Block.prototype.drawSquare = function(color) {
   ctx.fillRect(x, y, blockSize, blockSize);
 }
 
+Block.prototype.drawCircle = function(color) {
+  const centerX = this.col * blockSize + blockSize / 2;
+  const centerY = this.row * blockSize + blockSize / 2;
+  ctx.fillStyle = color;
+  circle(centerX, centerY, blockSize / 2, true);
+}
+
 const testBlock = new Block(1,1);
 testBlock.drawSquare("red");
 
@@ -57,7 +74,8 @@ testBlock.drawSquare("red");
 const idInterval = setInterval(() => {
   ctx.clearRect(0, 0, width, height);
   drawBorder();
-  drawScore()
+  drawScore();
+  circle(50, 50, blockSize / 2, true);
 }, 100)
 
 
