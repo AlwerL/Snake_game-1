@@ -38,6 +38,22 @@ const gameOver = () => {
   ctx.fillText("Game Over", width / 2, height / 2);
 }
 
+const Block = function(col, row) {
+  this.col = col;
+  this.row = row;
+}
+
+Block.prototype.drawSquare = function(color) {
+  const x = this.col * blockSize;
+  const y = this.row * blockSize;
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, blockSize, blockSize);
+}
+
+const testBlock = new Block(1,1);
+testBlock.drawSquare("red");
+
+
 const idInterval = setInterval(() => {
   ctx.clearRect(0, 0, width, height);
   drawBorder();
