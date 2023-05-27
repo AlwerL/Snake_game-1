@@ -89,6 +89,37 @@ Snake.prototype.draw = function() {
   })
 };
 
+Snake.prototype.move = function() {
+
+  const head = this.segments[0];
+  let newHead = null;
+
+  this.direction = this.nextDirection;
+
+  if (this.direction === "right") {
+    newHead = new Block(head.col + 1, head.row);
+  } else if (this.direction === "down") {
+    newHead = new Block(head.col, head.row + 1);
+  } else if (this.direction === "left") {
+    newHead = new Block(head.col - 1, head.row);
+  } else if (this.direction === "up") {
+    newHead = new Block(head.col, head.row - 1);
+  }
+
+  if (this.checkCollision(newHead)) {
+    gameOver();
+    return;
+  }
+
+  this.segments.unshift(newHead);
+
+  if (newHead.equal(apple.position)) {
+    score++;
+    apple.move();
+  } else {
+    this.segments.pop();
+  }
+}
 
 const idInterval = setInterval(() => {
   ctx.clearRect(0, 0, width, height);

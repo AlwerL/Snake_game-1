@@ -1,1 +1,1 @@
-#To start game -> open index.html#
+# To start game -> open index.html #
