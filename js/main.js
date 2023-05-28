@@ -28,6 +28,11 @@ const drawBorder = () => {
   ctx.fillRect(0, 0, blockSize, height)
 }
 
+const drawBackground = (color) => {
+  ctx.fillStyle = color;
+  ctx.fillRect(0,0, width, height);
+}
+
 const gameOver = () => {
   clearInterval(idInterval);
   ctx.textBaseline = "middle";
@@ -97,9 +102,6 @@ Snake.prototype.draw = function() {
       this.segments[i].drawSquare("blue")
     }
   }
-
-
-
 };
 
 Snake.prototype.checkCollision = function(head) {
@@ -146,6 +148,7 @@ Snake.prototype.move = function() {
   this.segments.unshift(newHead);
 
   if (newHead.equal(apple.position)) {
+    apple.changeColor();
     score++;
     apple.move();
   } else {
@@ -176,10 +179,21 @@ document.addEventListener("keydown", (e) => {
 
 const Apple = function() {
   this.position = new Block(10, 10);
+  this.color = {
+    R: 255,
+    G: 0,
+    B: 0
+  };
 };
 
+Apple.prototype.changeColor = function() {
+  const gRange = Math.floor(Math.random() * 256);
+  this.color.G = gRange;
+}
+
 Apple.prototype.draw = function() {
-  this.position.drawCircle("LimeGreen");
+  const color = `rgb(${this.color.R}, ${this.color.G}, ${this.color.B})`
+  this.position.drawCircle(color);
 }
 
 Apple.prototype.move = function() {
@@ -188,19 +202,16 @@ Apple.prototype.move = function() {
   this.position = new Block(randCol, randRow);
 }
 
-
-
 const apple = new Apple();
 const snake = new Snake();
 
 const idInterval = setInterval(() => {
   ctx.clearRect(0, 0, width, height);
+  drawBackground("rgb(0, 140, 3)")
   snake.move();
   snake.draw();
   apple.draw();
   drawBorder();
-  const newBlock = new Block(1,0);
-  newBlock.drawCircle("red")
 }, 100)
 
 });
