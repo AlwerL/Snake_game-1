@@ -6,6 +6,13 @@ const ctx = canvas.getContext("2d");
 const width = canvas.width;
 const height = canvas.height;
 
+const directions = {
+  KeyA: "left",
+  KeyW: "up",
+  KeyD: "right",
+  KeyS: "down",
+};
+
 const blockSize = 10;
 
 const widthInBlocks = width / blockSize;
@@ -89,6 +96,25 @@ Snake.prototype.draw = function() {
   })
 };
 
+Snake.prototype.checkCollision = function(head) {
+  const leftColl = (head.col === 0); 
+  const topColl = (head.row === 0)
+  const rightColl = (head.col === widthInBlocks - 1);
+  const downColl = (head.row === heightInBlocks - 1);
+
+  const wallColl = leftColl || rightColl || topColl || downColl;
+
+  let selfColl = false;
+
+  for (let i = 0; i  < this.segments.length; i++) {
+    if (head.equal(this.segments[i])) {
+      selfColl = true;
+    }
+  }
+
+  return wallColl || selfColl;
+}
+
 Snake.prototype.move = function() {
 
   const head = this.segments[0];
@@ -121,45 +147,52 @@ Snake.prototype.move = function() {
   }
 }
 
+Snake.prototype.setDirection = function(newDirection) {
+  if (this.direction === "up" && newDirection === "down") {
+    return;
+  } else if (this.direction === "right" && newDirection === "left") {
+    return;
+  } else if (this.direction === "down" && newDirection === "up") {
+    return;
+  } else if (this.direction === "left" && newDirection === "right") {
+    return;
+  }
+
+  this.nextDirection = newDirection;
+}
+
+const Apple = function() {
+  this.position = new Block(10, 10);
+};
+
+Apple.prototype.draw = function() {
+  this.position.drawCircle("LimeGreen");
+}
+
+Apple.prototype.move = function() {
+  const randCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
+  const randRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
+  this.position = new Block(randCol, randRow);
+}
+
+
+document.addEventListener("keydown", (e) => {
+  const newDirection = directions[e.code]
+  if (newDirection !== undefined) {
+    snake.setDirection(newDirection);
+  }
+})
+
+const apple = new Apple();
+const snake = new Snake();
+
 const idInterval = setInterval(() => {
   ctx.clearRect(0, 0, width, height);
-  drawBorder();
   drawScore();
+  snake.move();
+  snake.draw();
+  apple.draw();
+  drawBorder();
 }, 100)
-
-
-setTimeout(gameOver, 3000)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 });
