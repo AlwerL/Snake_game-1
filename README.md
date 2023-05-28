@@ -1,1 +1,2 @@
-# To start game -> open index.html #
+# To start the game: open index.html #
+## To interact: WASD keys ##

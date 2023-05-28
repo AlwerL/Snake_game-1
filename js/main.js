@@ -28,14 +28,6 @@ const drawBorder = () => {
   ctx.fillRect(0, 0, blockSize, height)
 }
 
-const drawScore = () => {
-  ctx.textBaseline = "top";
-  ctx.textAlign = "left";
-  ctx.fillStyle = "Black";
-  ctx.font = "20px Comic Sans MS"
-  ctx.fillText("Score: " + score, blockSize + 2, blockSize + 2);
-}
-
 const gameOver = () => {
   clearInterval(idInterval);
   ctx.textBaseline = "middle";
@@ -43,6 +35,11 @@ const gameOver = () => {
   ctx.fillStyle = "Black";
   ctx.font = "60px Comic Sans MS"
   ctx.fillText("Game Over", width / 2, height / 2);
+  ctx.textBaseline = "top";
+  ctx.textAlign = "center";
+  ctx.fillStyle = "Black";
+  ctx.font = "40px Comic Sans MS"
+  ctx.fillText("Score: " + score, width / 2, height / 1.7);
 }
 
 const circle = function(x, y, radius, fillCircle) {
@@ -85,15 +82,24 @@ const Snake = function() {
     new Block(6, 5),
     new Block(5, 5)
   ];
-
+  
   this.direction = "right";
   this.nextDirection = "right";
 }
 
 Snake.prototype.draw = function() {
-  this.segments.forEach(val => {
-    val.drawSquare("blue")
-  })
+  for(let i = 0; i < this.segments.length; i++) {
+    if (i === 0) {
+      this.segments[i].drawSquare("black")
+    } else if (Number.isInteger(i / 2)) {
+      this.segments[i].drawSquare("orange")
+    } else {
+      this.segments[i].drawSquare("blue")
+    }
+  }
+
+
+
 };
 
 Snake.prototype.checkCollision = function(head) {
@@ -161,6 +167,13 @@ Snake.prototype.setDirection = function(newDirection) {
   this.nextDirection = newDirection;
 }
 
+document.addEventListener("keydown", (e) => {
+  const newDirection = directions[e.code]
+  if (newDirection !== undefined) {
+    snake.setDirection(newDirection);
+  }
+})
+
 const Apple = function() {
   this.position = new Block(10, 10);
 };
@@ -176,23 +189,18 @@ Apple.prototype.move = function() {
 }
 
 
-document.addEventListener("keydown", (e) => {
-  const newDirection = directions[e.code]
-  if (newDirection !== undefined) {
-    snake.setDirection(newDirection);
-  }
-})
 
 const apple = new Apple();
 const snake = new Snake();
 
 const idInterval = setInterval(() => {
   ctx.clearRect(0, 0, width, height);
-  drawScore();
   snake.move();
   snake.draw();
   apple.draw();
   drawBorder();
+  const newBlock = new Block(1,0);
+  newBlock.drawCircle("red")
 }, 100)
 
 });
