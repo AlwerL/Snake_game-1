@@ -37,12 +37,12 @@ const gameOver = () => {
   clearInterval(idInterval);
   ctx.textBaseline = "middle";
   ctx.textAlign = "center";
-  ctx.fillStyle = "Black";
+  ctx.fillStyle = "White";
   ctx.font = "60px Comic Sans MS"
   ctx.fillText("Game Over", width / 2, height / 2);
   ctx.textBaseline = "top";
   ctx.textAlign = "center";
-  ctx.fillStyle = "Black";
+  ctx.fillStyle = "White";
   ctx.font = "40px Comic Sans MS"
   ctx.fillText("Score: " + score, width / 2, height / 1.7);
 }
@@ -95,11 +95,11 @@ const Snake = function() {
 Snake.prototype.draw = function() {
   for(let i = 0; i < this.segments.length; i++) {
     if (i === 0) {
-      this.segments[i].drawSquare("black")
+      this.segments[i].drawSquare("rgb(27, 24, 21)")
     } else if (Number.isInteger(i / 2)) {
-      this.segments[i].drawSquare("orange")
+      this.segments[i].drawSquare("rgb(225, 88, 0)")
     } else {
-      this.segments[i].drawSquare("blue")
+      this.segments[i].drawSquare("orange")
     }
   }
 };
@@ -207,7 +207,7 @@ const snake = new Snake();
 
 const idInterval = setInterval(() => {
   ctx.clearRect(0, 0, width, height);
-  drawBackground("rgb(0, 140, 3)")
+  drawBackground("rgb(31, 100, 26)")
   snake.move();
   snake.draw();
   apple.draw();
