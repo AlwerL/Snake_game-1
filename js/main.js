@@ -41,8 +41,8 @@ const gameOver = () => {
   ctx.textBaseline = "bottom";
   ctx.textAlign = "center";
   ctx.fillStyle = "Black";
-  ctx.font = "900 60px Comic Sans MS"
-  ctx.fillText("Game Over", width / 2, height / 2);
+  ctx.font = "900 30px Comic Sans MS"
+  ctx.fillText("Герыч дашь в попку?", width / 2, height / 2);
   ctx.textBaseline = "top";
   ctx.textAlign = "center";
   ctx.fillStyle = "Black";
