@@ -11,6 +11,10 @@ const directions = {
   KeyW: "up",
   KeyD: "right",
   KeyS: "down",
+  ArrowLeft: "left",
+  ArrowUp: "up",
+  ArrowRight: "right",
+  ArrowDown: "down"
 };
 
 const blockSize = 10;
@@ -140,7 +144,7 @@ Snake.prototype.move = function() {
   }
 
   if (this.checkCollision(newHead)) {
-    // statusGame = false;
+    statusGame = false;
     return;
   }
 
