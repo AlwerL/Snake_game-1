@@ -6,8 +6,6 @@ const ctx = canvas.getContext("2d");
 const width = canvas.width;
 const height = canvas.height;
 
-let gameIsOn = true;
-
 const directions = {
   KeyA: "left",
   KeyW: "up",
@@ -36,8 +34,7 @@ const drawBackground = (color) => {
 }
 
 const gameOver = () => {
-  clearInterval(idInterval);
-  ctx.textBaseline = "middle";
+  ctx.textBaseline = "bottom";
   ctx.textAlign = "center";
   ctx.fillStyle = "Black";
   ctx.font = "900 60px Comic Sans MS"
@@ -143,7 +140,7 @@ Snake.prototype.move = function() {
   }
 
   if (this.checkCollision(newHead)) {
-    gameIsOn = false;
+    statusGame = false;
     return;
   }
 
@@ -152,6 +149,9 @@ Snake.prototype.move = function() {
   if (newHead.equal(apple.position)) {
     apple.changeColor();
     score++;
+    if (animationTime > 35) {
+      animationTime -= 0.3;
+    }
     apple.move();
   } else {
     this.segments.pop();
@@ -207,17 +207,25 @@ Apple.prototype.move = function() {
 const apple = new Apple();
 const snake = new Snake();
 
-const idInterval = setInterval(() => {
-  ctx.clearRect(0, 0, width, height);
-  drawBackground("rgb(31, 100, 26)")
-  snake.move();
-  snake.draw();
-  apple.draw();
-  if(!gameIsOn) {
-    drawBackground("rgb(31, 100, 26)")
-    gameOver();
-  }
-  drawBorder();
-}, 100)
+let animationTime = 100;
+let statusGame = true;
+
+const gameLoop = () => {
+  if (statusGame) {
+    ctx.clearRect(0, 0, width, height);
+    drawBackground("rgb(31, 100, 26)");
+    snake.move();
+    snake.draw();
+    apple.draw();
+    if(!statusGame) {
+      drawBackground("rgb(31, 100, 26)");
+      gameOver()
+    };
+    drawBorder();
+    setTimeout(gameLoop, animationTime);
+  } 
+}
+
+gameLoop();
 
 });
