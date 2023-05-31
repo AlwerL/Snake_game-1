@@ -140,7 +140,7 @@ Snake.prototype.move = function() {
   }
 
   if (this.checkCollision(newHead)) {
-    statusGame = false;
+    // statusGame = false;
     return;
   }
 
@@ -199,9 +199,16 @@ Apple.prototype.draw = function() {
 }
 
 Apple.prototype.move = function() {
-  const randCol = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
-  const randRow = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
-  this.position = new Block(randCol, randRow);
+  const col = Math.floor(Math.random() * (widthInBlocks - 2)) + 1;
+  const row = Math.floor(Math.random() * (heightInBlocks - 2)) + 1;
+  this.position = new Block(col, row);
+
+  snake.segments.forEach(val => {
+    if(val.equal({col, row})) {
+      this.move();
+      return;
+    }
+  })
 }
 
 const apple = new Apple();
