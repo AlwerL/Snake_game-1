@@ -41,7 +41,7 @@ const gameOver = () => {
   ctx.textBaseline = "bottom";
   ctx.textAlign = "center";
   ctx.fillStyle = "Black";
-  ctx.font = "900 30px Comic Sans MS"
+  ctx.font = "900 30px Comic Sans MS";
   ctx.fillText("You lost", width / 2, height / 2);
   ctx.textBaseline = "top";
   ctx.textAlign = "center";
@@ -56,7 +56,7 @@ const circle = function(x, y, radius, fillCircle) {
   if (fillCircle) {
     ctx.fill();
   } else {
-    ctx.stroke();
+    ctx.stroke(); // ?
   }
 };
 
@@ -86,14 +86,15 @@ Block.prototype.equal = function(otherBlock) {
 const Snake = function() {
 
   this.segments = [
-    new Block(7, 5),
-    new Block(6, 5),
-    new Block(5, 5)
+    new Block(widthInBlocks / 2 - 5, heightInBlocks / 2),
+    new Block(widthInBlocks / 2 - 6, heightInBlocks / 2),
+    new Block(widthInBlocks / 2 - 7, heightInBlocks / 2)
   ];
   
   this.direction = "right";
   this.nextDirection = "right";
 }
+
 
 Snake.prototype.draw = function() {
   for(let i = 0; i < this.segments.length; i++) {
